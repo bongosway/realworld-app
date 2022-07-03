@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  backend:
+    image: bongosway/realworldapp
+    build: ./
+    ports:
+      - "8081:8080"
