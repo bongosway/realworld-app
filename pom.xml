@@ -10,12 +10,35 @@
 	</parent>
 	<groupId>com.bongosway.io</groupId>
 	<artifactId>real-world-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>real-world-app</name>
 	<description>Custom Implementation of Real World App</description>
 	<properties>
 		<java.version>11</java.version>
+		<build-date>${maven.build.timestamp}</build-date>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 	</properties>
+
+	<developers>
+		<developer>
+			<name>Edirin T. Atumah</name>
+			<email>dumbdev@gmail.com</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://mit-license.org/</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:bongosway/realworld-app.git</connection>
+		<developerConnection>scm:git:git@github.com:bongosway/realworld-app.git</developerConnection>
+		<url>https://github.com/bongosway/realworld-app</url>
+		<tag>HEAD</tag>
+	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
