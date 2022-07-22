@@ -20,14 +20,14 @@
 
 package com.bongosway.io.realworldapp.domain.user.core.port.out;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.User;
+import com.bongosway.io.realworldapp.domain.user.core.model.UserEntity;
 import java.util.Optional;
 
 public interface UserDao {
 
-  void save(User user);
+  void save(UserEntity user);
 
-  Optional<User> findById(String id);
+  Optional<UserEntity> findById(String id);
 
-  Optional<User> findByEmail(String email);
+  Optional<UserEntity> findByEmail(String email);
 }

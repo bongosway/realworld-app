@@ -20,41 +20,31 @@
 
 package com.bongosway.io.realworldapp.domain.user.core.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@JsonTypeName("user")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-public class RegisterUserRequest {
+@Entity
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
+public class UserEntity {
 
-  @NotBlank
-  private final String username;
-
-  @NotBlank
-  @Size(min = 6, max = 50)
-  private final String password;
-
-  @Email
-  private final String email;
-
-  public RegisterUserRequest(String username, String email, String password) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public String getPassword() {
-    return password;
-  }
+  @Id
+  @Column(unique = true)
+  private String id;
+  private String username;
+  private String email;
+  private String password;
+  private String token;
+  private String bio;
+  private String image;
 }

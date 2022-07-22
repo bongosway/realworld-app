@@ -27,21 +27,17 @@ import com.bongosway.io.realworldapp.domain.user.core.UserFacade;
 import com.bongosway.io.realworldapp.domain.user.core.port.out.UserDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Configuration
-@EnableTransactionManagement
+@Configuration(proxyBeanMethods = false)
 public class UserDomainConfig {
 
   @Bean
-  public UserDao userDatabase(UserRepository userRepository) {
+  public UserDao userDao(UserRepository userRepository) {
     return new JpaUserDaoAdapter(userRepository);
   }
 
   @Bean
-  public UserFacade userFacade(UserDao userDatabase) {
-    return new UserFacade(userDatabase);
+  public UserFacade userFacade(UserDao userDao) {
+    return new UserFacade(userDao);
   }
-
-
 }

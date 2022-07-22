@@ -20,34 +20,37 @@
 
 package com.bongosway.io.realworldapp.domain.user.core.model;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class UserFactory {
 
   private UserFactory() {
   }
 
-  public static User createNewUser(RegisterUserRequest userRequest) {
-    return new User(userRequest.getUsername(), userRequest.getEmail(), userRequest.getPassword());
+  public static UserEntity createNewUser(NewUserRequest userRequest) {
+    return UserEntity.builder()
+        .id(UUID.randomUUID().toString())
+        .username(userRequest.getUsername())
+        .password(userRequest.getPassword())
+        .email(userRequest.getEmail())
+        .build();
   }
 
-  public static User updateUser(User foundUser, UpdateUserRequest userRequest) {
+  public static UserEntity updateUser(UserEntity foundUser, UpdateUserRequest userRequest) {
     foundUser.setEmail(userRequest.getEmail());
 
-    if (isNullOrEmpty(userRequest.getBio())) {
+    if (notNullOrEmpty(userRequest.getBio())) {
       foundUser.setBio(userRequest.getBio());
     }
 
-    if (isNullOrEmpty(userRequest.getImage())) {
+    if (notNullOrEmpty(userRequest.getImage())) {
       foundUser.setImage(userRequest.getImage());
     }
 
-    foundUser.setUpdatedOn(LocalDateTime.now());
     return foundUser;
   }
 
-  private static boolean isNullOrEmpty(String value) {
+  private static boolean notNullOrEmpty(String value) {
     return value != null && !value.isEmpty();
   }
-
 }

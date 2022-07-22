@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2022. Edirin T. Atumah
+ * Copyright (c) 2022. Edirin T. Atumah
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -18,33 +18,43 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.bongosway.io.realworldapp.acceptance;
+package com.bongosway.io.realworldapp.domain.user.core.model;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.User;
-import com.bongosway.io.realworldapp.domain.user.core.port.out.UserDao;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-public class InMemoryTestUserDatabase implements UserDao {
+@JsonTypeName("user")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
+public class NewUserRequest {
 
-  ConcurrentHashMap<String, User> users = new ConcurrentHashMap<>();
+  @NotBlank
+  private final String username;
 
-  @Override
-  public void save(User user) {
-    String id = UUID.randomUUID().toString();
+  @NotBlank
+  @Size(min = 6, max = 50)
+  private final String password;
 
-    users.put(id, user);
-    System.out.println("User Created: " + users);
+  @Email
+  private final String email;
+
+  public NewUserRequest(String username, String email, String password) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
   }
 
-  @Override
-  public Optional<User> findById(String id) {
-    return Optional.empty();
+  public String getUsername() {
+    return username;
   }
 
-  @Override
-  public Optional<User> findByEmail(String email) {
-    return Optional.of(users.get(email));
+  public String getEmail() {
+    return email;
+  }
+
+  public String getPassword() {
+    return password;
   }
 }

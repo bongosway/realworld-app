@@ -18,12 +18,31 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.bongosway.io.realworldapp.domain.user.core.port.in;
+package com.bongosway.io.realworldapp.domain.user.application;
 
+import com.bongosway.io.realworldapp.domain.user.core.UserFacade;
 import com.bongosway.io.realworldapp.domain.user.core.model.NewUserRequest;
 import com.bongosway.io.realworldapp.domain.user.core.model.UserAggregate;
+import javax.validation.Valid;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-public interface RegisterUseCase {
+@RestController
+@RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class UsersController {
+  private final UserFacade userFacade;
 
-  UserAggregate handle(NewUserRequest newUserRequest);
+  public UsersController(UserFacade userFacade) {
+    this.userFacade = userFacade;
+  }
+
+  @PostMapping("/api/users")
+  public ResponseEntity<UserAggregate> registerUser(@RequestBody @Valid NewUserRequest newUserRequest) {
+    return ResponseEntity.ok(userFacade.handle(newUserRequest));
+  }
+
 }

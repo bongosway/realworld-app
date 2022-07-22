@@ -20,42 +20,30 @@
 
 package com.bongosway.io.realworldapp.domain.user.application;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.RegisterUserRequest;
+import com.bongosway.io.realworldapp.domain.user.core.UserFacade;
 import com.bongosway.io.realworldapp.domain.user.core.model.UpdateUserRequest;
 import com.bongosway.io.realworldapp.domain.user.core.model.UserAggregate;
-import com.bongosway.io.realworldapp.domain.user.core.port.in.RegisterUseCase;
-import com.bongosway.io.realworldapp.domain.user.core.port.in.UpdateUseCase;
 import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserController {
 
-  private final RegisterUseCase registerUseCase;
-  private final UpdateUseCase updateUseCase;
+  private final UserFacade userFacade;
 
-  public UserController(RegisterUseCase registerUseCase, UpdateUseCase updateUseCase) {
-    this.registerUseCase = registerUseCase;
-    this.updateUseCase = updateUseCase;
+  public UserController(UserFacade userFacade) {
+    this.userFacade = userFacade;
   }
 
-  @PostMapping(value = "/api/users")
-  public ResponseEntity<UserAggregate> createUser(
-      @RequestBody @Valid RegisterUserRequest registerUserRequest) {
-
-    return ResponseEntity.ok(registerUseCase.handle(registerUserRequest));
-  }
-
-  @PutMapping(value = "/api/users")
-  public ResponseEntity<UserAggregate> updateUser(
+  @PutMapping(value = "/api/user")
+  public ResponseEntity<UserAggregate> updateCurrentUser(
       @RequestBody @Valid UpdateUserRequest updateUserRequest) {
-    return ResponseEntity.ok(updateUseCase.handle(updateUserRequest));
+    return ResponseEntity.ok(userFacade.handle(updateUserRequest));
   }
 }

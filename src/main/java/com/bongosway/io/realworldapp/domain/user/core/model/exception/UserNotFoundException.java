@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2022. Edirin T. Atumah
+ * Copyright (c) 2022. Edirin T. Atumah
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -18,14 +18,15 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.bongosway.io.realworldapp.domain.user.adapter.out;
+package com.bongosway.io.realworldapp.domain.user.core.model.exception;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.UserEntity;
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+public class UserNotFoundException extends RuntimeException {
 
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity, String> {
-  Optional<UserEntity> findByEmail(String email);
+  public UserNotFoundException(String email) {
+    this("Member profile with email <%s> does not exist", email);
+  }
+
+  public UserNotFoundException(String message, Object... args) {
+    super(String.format(message, args));
+  }
 }
