@@ -29,7 +29,7 @@ public class UserFactory {
 
   public static UserEntity createNewUser(NewUserRequest userRequest) {
     return UserEntity.builder()
-        .id(UUID.randomUUID())
+        .id(UUID.randomUUID().toString())
         .username(userRequest.getUsername())
         .password(userRequest.getPassword())
         .email(userRequest.getEmail())

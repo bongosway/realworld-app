@@ -67,6 +67,7 @@ public class UserFacade implements RegisterUseCase, UpdateUseCase {
     return new UserAggregate(
         that.getUsername(),
         that.getEmail(),
+        that.getToken(),
         that.getBio(),
         that.getImage()
     );

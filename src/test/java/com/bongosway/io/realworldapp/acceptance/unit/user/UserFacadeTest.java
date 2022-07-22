@@ -53,8 +53,9 @@ class UserFacadeTest {
     updateRequest = new UpdateUserRequest("test-update@test.com", "Real Engineer", "https://image.com/user1");
     newUserRequest = new NewUserRequest("test-user", "test@email.com", "test-password");
     testUser = UserEntity.builder()
-        .id(UUID.randomUUID())
+        .id(UUID.randomUUID().toString())
         .username("asdsdsa")
+        .token("random token")
         .email("a@a.com")
         .password("pass")
         .build();
@@ -76,6 +77,7 @@ class UserFacadeTest {
     assertThat(response).isNotNull();
     assertThat(response.getEmail()).isEqualTo(expected.getEmail());
     assertThat(response.getBio()).isNull();
+    assertThat(response.getToken()).isNull();
   }
 
   @Test
@@ -84,7 +86,7 @@ class UserFacadeTest {
     UserAggregate response = userFacade.handle(updateRequest);
 
     assertThat(response).usingRecursiveComparison()
-        .ignoringFields("username")
+        .ignoringFields("username", "token")
         .isEqualTo(updateRequest);
   }
 

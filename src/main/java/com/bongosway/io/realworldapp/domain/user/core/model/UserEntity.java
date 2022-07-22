@@ -40,10 +40,11 @@ public class UserEntity {
 
   @Id
   @Column(unique = true)
-  private UUID id;
+  private String id;
   private String username;
   private String email;
   private String password;
+  private String token;
   private String bio;
   private String image;
 }
