@@ -46,5 +46,4 @@ public class UserController {
       @RequestBody @Valid UpdateUserRequest updateUserRequest) {
     return ResponseEntity.ok(userFacade.handle(updateUserRequest));
   }
-
 }

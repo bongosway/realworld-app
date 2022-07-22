@@ -18,7 +18,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.bongosway.io.realworldapp.acceptance.unit.user;
+package com.bongosway.io.realworldapp.unit.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

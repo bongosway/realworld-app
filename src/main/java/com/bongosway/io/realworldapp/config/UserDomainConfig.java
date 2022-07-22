@@ -28,11 +28,11 @@ import com.bongosway.io.realworldapp.domain.user.core.port.out.UserDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class UserDomainConfig {
 
   @Bean
-  public UserDao userDatabase(UserRepository userRepository) {
+  public UserDao userDao(UserRepository userRepository) {
     return new JpaUserDaoAdapter(userRepository);
   }
 
@@ -40,6 +40,4 @@ public class UserDomainConfig {
   public UserFacade userFacade(UserDao userDao) {
     return new UserFacade(userDao);
   }
-
-
 }
