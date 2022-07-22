@@ -39,19 +39,18 @@ public class UserFactory {
   public static UserEntity updateUser(UserEntity foundUser, UpdateUserRequest userRequest) {
     foundUser.setEmail(userRequest.getEmail());
 
-    if (isNullOrEmpty(userRequest.getBio())) {
+    if (notNullOrEmpty(userRequest.getBio())) {
       foundUser.setBio(userRequest.getBio());
     }
 
-    if (isNullOrEmpty(userRequest.getImage())) {
+    if (notNullOrEmpty(userRequest.getImage())) {
       foundUser.setImage(userRequest.getImage());
     }
 
     return foundUser;
   }
 
-  private static boolean isNullOrEmpty(String value) {
+  private static boolean notNullOrEmpty(String value) {
     return value != null && !value.isEmpty();
   }
-
 }
