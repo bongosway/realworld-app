@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2022. Edirin T. Atumah
+ * Copyright (c) 2022. Edirin T. Atumah
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -18,14 +18,32 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.bongosway.io.realworldapp.domain.user.adapter.out;
+package com.bongosway.io.realworldapp.domain.user.core.model;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.UserEntity;
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity, String> {
-  Optional<UserEntity> findByEmail(String email);
+@Entity
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
+public class UserEntity {
+
+  @Id
+  @Column(unique = true)
+  private UUID id;
+  private String username;
+  private String email;
+  private String password;
+  private String bio;
+  private String image;
 }

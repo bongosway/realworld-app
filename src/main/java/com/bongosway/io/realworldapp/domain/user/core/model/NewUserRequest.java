@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 
 @JsonTypeName("user")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
-public class RegisterUserRequest {
+public class NewUserRequest {
 
   @NotBlank
   private final String username;
@@ -40,7 +40,7 @@ public class RegisterUserRequest {
   @Email
   private final String email;
 
-  public RegisterUserRequest(String username, String email, String password) {
+  public NewUserRequest(String username, String email, String password) {
     this.username = username;
     this.email = email;
     this.password = password;

@@ -20,10 +20,10 @@
 
 package com.bongosway.io.realworldapp.domain.user.core.port.in;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.RegisterUserRequest;
+import com.bongosway.io.realworldapp.domain.user.core.model.NewUserRequest;
 import com.bongosway.io.realworldapp.domain.user.core.model.UserAggregate;
 
 public interface RegisterUseCase {
 
-  UserAggregate handle(RegisterUserRequest registerUserRequest);
+  UserAggregate handle(NewUserRequest newUserRequest);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2022. Edirin T. Atumah
+ * Copyright (c) 2022. Edirin T. Atumah
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -18,33 +18,15 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.bongosway.io.realworldapp.acceptance;
+package com.bongosway.io.realworldapp.domain.user.core.model.exception;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.User;
-import com.bongosway.io.realworldapp.domain.user.core.port.out.UserDao;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+public class UserNotFoundException extends RuntimeException {
 
-public class InMemoryTestUserDatabase implements UserDao {
-
-  ConcurrentHashMap<String, User> users = new ConcurrentHashMap<>();
-
-  @Override
-  public void save(User user) {
-    String id = UUID.randomUUID().toString();
-
-    users.put(id, user);
-    System.out.println("User Created: " + users);
+  public UserNotFoundException(String email) {
+    this("Member profile with email <%s> does not exist", email);
   }
 
-  @Override
-  public Optional<User> findById(String id) {
-    return Optional.empty();
-  }
-
-  @Override
-  public Optional<User> findByEmail(String email) {
-    return Optional.of(users.get(email));
+  public UserNotFoundException(String message, Object... args) {
+    super(String.format(message, args));
   }
 }

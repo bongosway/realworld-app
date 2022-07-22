@@ -20,7 +20,7 @@
 
 package com.bongosway.io.realworldapp.domain.user.adapter.out;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.User;
+import com.bongosway.io.realworldapp.domain.user.core.model.UserEntity;
 import com.bongosway.io.realworldapp.domain.user.core.port.out.UserDao;
 import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,18 +35,18 @@ public class JpaUserDaoAdapter implements UserDao {
 
   @Override
   @Transactional
-  public void save(User user) {
+  public void save(UserEntity user) {
     userRepository.save(user);
   }
 
   @Override
   @Transactional
-  public Optional<User> findById(String id) {
+  public Optional<UserEntity> findById(String id) {
     return userRepository.findById(id);
   }
 
   @Override
-  public Optional<User> findByEmail(String email) {
+  public Optional<UserEntity> findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 }

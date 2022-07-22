@@ -20,18 +20,23 @@
 
 package com.bongosway.io.realworldapp.domain.user.core.model;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class UserFactory {
 
   private UserFactory() {
   }
 
-  public static User createNewUser(RegisterUserRequest userRequest) {
-    return new User(userRequest.getUsername(), userRequest.getEmail(), userRequest.getPassword());
+  public static UserEntity createNewUser(NewUserRequest userRequest) {
+    return UserEntity.builder()
+        .id(UUID.randomUUID())
+        .username(userRequest.getUsername())
+        .password(userRequest.getPassword())
+        .email(userRequest.getEmail())
+        .build();
   }
 
-  public static User updateUser(User foundUser, UpdateUserRequest userRequest) {
+  public static UserEntity updateUser(UserEntity foundUser, UpdateUserRequest userRequest) {
     foundUser.setEmail(userRequest.getEmail());
 
     if (isNullOrEmpty(userRequest.getBio())) {
@@ -42,7 +47,6 @@ public class UserFactory {
       foundUser.setImage(userRequest.getImage());
     }
 
-    foundUser.setUpdatedOn(LocalDateTime.now());
     return foundUser;
   }
 

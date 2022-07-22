@@ -20,45 +20,53 @@
 
 package com.bongosway.io.realworldapp.domain.user.core;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.RegisterUserRequest;
+import com.bongosway.io.realworldapp.domain.user.core.model.NewUserRequest;
 import com.bongosway.io.realworldapp.domain.user.core.model.UpdateUserRequest;
-import com.bongosway.io.realworldapp.domain.user.core.model.User;
 import com.bongosway.io.realworldapp.domain.user.core.model.UserAggregate;
+import com.bongosway.io.realworldapp.domain.user.core.model.UserEntity;
 import com.bongosway.io.realworldapp.domain.user.core.model.UserFactory;
+import com.bongosway.io.realworldapp.domain.user.core.model.exception.DuplicateUserFoundException;
+import com.bongosway.io.realworldapp.domain.user.core.model.exception.UserNotFoundException;
 import com.bongosway.io.realworldapp.domain.user.core.port.in.RegisterUseCase;
 import com.bongosway.io.realworldapp.domain.user.core.port.in.UpdateUseCase;
 import com.bongosway.io.realworldapp.domain.user.core.port.out.UserDao;
 
 public class UserFacade implements RegisterUseCase, UpdateUseCase {
 
-  private final UserDao userDatabase;
+  private final UserDao userDao;
 
-  public UserFacade(UserDao userDatabase) {
-    this.userDatabase = userDatabase;
+  public UserFacade(UserDao userDao) {
+    this.userDao = userDao;
   }
 
   @Override
-  public UserAggregate handle(RegisterUserRequest registerUserRequest) {
-    User newUser = UserFactory.createNewUser(registerUserRequest);
-    userDatabase.save(newUser);
+  public UserAggregate handle(NewUserRequest registerUserRequest) {
+    if (userDao.findByEmail(registerUserRequest.getEmail()).isPresent()) {
+      throw new DuplicateUserFoundException(registerUserRequest.getEmail());
+    }
+
+    UserEntity newUser = UserFactory.createNewUser(registerUserRequest);
+    userDao.save(newUser);
 
     return convertToAggregate(newUser);
   }
 
   @Override
   public UserAggregate handle(UpdateUserRequest updateUserRequest) {
-    User foundUser = userDatabase.findByEmail(updateUserRequest.getEmail()).orElseThrow();
-    User updatedUser = UserFactory.updateUser(foundUser, updateUserRequest);
-    userDatabase.save(updatedUser);
+    UserEntity foundUser = userDao
+        .findByEmail(updateUserRequest.getEmail())
+        .orElseThrow(() -> new UserNotFoundException(updateUserRequest.getEmail()));
+
+    UserEntity updatedUser = UserFactory.updateUser(foundUser, updateUserRequest);
+    userDao.save(updatedUser);
 
     return convertToAggregate(updatedUser);
   }
 
-  private static UserAggregate convertToAggregate(User that) {
+  private static UserAggregate convertToAggregate(UserEntity that) {
     return new UserAggregate(
         that.getUsername(),
         that.getEmail(),
-        that.getToken(),
         that.getBio(),
         that.getImage()
     );

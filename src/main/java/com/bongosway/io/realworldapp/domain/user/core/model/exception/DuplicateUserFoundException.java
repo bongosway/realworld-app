@@ -18,14 +18,15 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.bongosway.io.realworldapp.domain.user.adapter.out;
+package com.bongosway.io.realworldapp.domain.user.core.model.exception;
 
-import com.bongosway.io.realworldapp.domain.user.core.model.UserEntity;
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+public class DuplicateUserFoundException extends RuntimeException {
 
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity, String> {
-  Optional<UserEntity> findByEmail(String email);
+  public DuplicateUserFoundException(String message) {
+    this("Member profile with email <%s> exist", message);
+  }
+
+  public DuplicateUserFoundException(String message, Object... args) {
+    super(String.format(message, args));
+  }
 }
